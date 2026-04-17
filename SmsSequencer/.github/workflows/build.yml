@@ -18,17 +18,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Gradle
+      - name: Generate Gradle wrapper JAR
+        working-directory: ./SmsSequencer
         run: |
-          wget https://services.gradle.org/distributions/gradle-8.2-bin.zip
-          unzip gradle-8.2-bin.zip
-          export PATH=$PATH:$PWD/gradle-8.2/bin
+          gradle wrapper --gradle-version 8.2
+          chmod +x ./gradlew
 
       - name: Build Debug APK
         working-directory: ./SmsSequencer
-        run: |
-          export PATH=$PATH:$PWD/../gradle-8.2/bin
-          gradle assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
